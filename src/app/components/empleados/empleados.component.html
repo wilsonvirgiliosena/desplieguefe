@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col s12">
+    <!-- Formulario para agregar/editar empleado -->
+    <div class="card">
+      <form class="col s12" #empleadoForm="ngForm" (ngSubmit)="guardarEmpleado(empleadoForm)">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">account_circle</i>
+            <input id="icon_prefix" type="text" name="name" #name="ngModel" [(ngModel)]="empleadoService.selectedEmpleado.name" placeholder="Ingrese su Nombre" required>
+            <label for="icon_prefix">Nombre Completo</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">group_work</i>
+            <input id="icon_group_work" type="text" name="position" #position="ngModel" [(ngModel)]="empleadoService.selectedEmpleado.position" placeholder="Ingrese su Cargo" required>
+            <label for="icon_group_work">Cargo</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">explore_nearby</i>
+            <input id="explore_nearby" type="text" name="office" #office="ngModel" [(ngModel)]="empleadoService.selectedEmpleado.office" placeholder="Ingrese su lugar de Trabajo" required>
+            <label for="explore_nearby">Lugar de Trabajo</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">paid</i>
+            <input id="icon_paid" type="text" name="salary" #salary="ngModel" [(ngModel)]="empleadoService.selectedEmpleado.salary" placeholder="Ingrese su Salario" required>
+            <label for="icon_paid">Salario</label>
+          </div>
+
+          <div class="card-action">
+            <div class="input-field col s12">
+              <button class="btn right" type="submit" [disabled]="empleadoForm.invalid">{{empleadoService.selectedEmpleado._id ? 'Actualizar' : 'Guardar'}}</button>
+              <button class="btn" type="button" (click)="resetForm(empleadoForm)">Limpiar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Tabla para mostrar lista de empleados -->
+       <div class="container">
+      <table class="striped">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Lugar de Trabajo</th>
+            <th>Salario</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let empleado of empleadoService.empleados | paginate: { itemsPerPage: 3, currentPage: page }">
+            <td>{{empleado.name}}</td>
+            <td>{{empleado.position}}</td>
+            <td>{{empleado.office}}</td>
+            <td>{{empleado.salary}}</td>
+            <td>
+              <button class="btn-small blue" (click)="editarEmpleado(empleado)" style="margin-right: 10px;">Editar</button>
+              <button class="btn-small red" (click)="eliminarEmpleado(empleado._id)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="page = $event" previousLabel="Anterior"
+      nextLabel="Siguiente"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
